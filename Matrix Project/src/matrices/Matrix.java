@@ -45,6 +45,7 @@ public class Matrix {
 	
 	//Prints a Matrix to the console
 	public void printMatrix() {
+		System.out.println();
 		for(int r = 0; r < this.rows; r++) {
 			for(int c = 0; c < this.cols; c++) {
 				System.out.print(this.matrix[r][c] + " ");
@@ -71,11 +72,24 @@ public class Matrix {
 	//Multiplies this by m provided m has dimensions: ([this.cols][this.rows])
 	public Matrix multiplyMatrix(Matrix m){
 		int[][] ret = new int[this.rows][m.cols];
-		for(int r = 0; r < this.rows; r++) {
-			for(int c = 0; c < m.cols; c++) {
-				
+		
+		//Cycle through columns of m
+		for(int c = 0; c < m.cols; c++) {
+			int[] colVector = new int[m.rows];
+			//Make a column vector from m for each column of m
+			for(int r = 0; r < m.rows; r++) {
+				colVector[r] = m.matrix[r][c];
+			}
+			Vector col = new Vector(colVector);
+			
+			//Make a row vectors from this and start populating the 
+			for(int r = 0; r < this.rows; r++) {
+				int[] rowVector = this.matrix[r]; 
+				Vector row = new Vector(rowVector);
+				ret[r][c] = row.getDotProduct(col);
 			}
 		}
 		return new Matrix(ret);
 	}
+	
 }
